@@ -26,12 +26,9 @@ class AuthApp():
 class AppError(Exception):
     ERROR_CODE = None
     ERROR_DESCRIPTION = None
-    def __init__(self, error):
-        self.error = {
-            "code": self.ERROR_DESCRIPTION,
-            "description": error
-        }
-        self.status_code = self.ERROR_CODE
+    def __init__(self, error, code):
+        self.error = error
+        self.status_code = ERROR_CODE
 
 class AuthError(AppError):
     ERROR_CODE = 401
@@ -54,7 +51,7 @@ def get_token_auth_header():
         if not auth:
             raise AuthError({"code": "authorization_header_missing",
                             "description":
-                                "Authorization header is expected"}, 401)
+                                "Authorization header is expected"})
 
         parts = auth.split()
 
@@ -62,15 +59,15 @@ def get_token_auth_header():
             raise AuthError({"code": "invalid_header",
                             "description":
                                 "Authorization header must start with"
-                                " Bearer"}, 401)
+                                " Bearer"})
         elif len(parts) == 1:
             raise AuthError({"code": "invalid_header",
-                            "description": "Token not found"}, 401)
+                            "description": "Token not found"})
         elif len(parts) > 2:
             raise AuthError({"code": "invalid_header",
                             "description":
                                 "Authorization header must be"
-                                " Bearer token"}, 401)
+                                " Bearer token"})
 
         token = parts[1]
         return token
@@ -105,23 +102,23 @@ def requires_auth(f):
                 )
             except jwt.ExpiredSignatureError:
                 raise AuthError({"code": "token_expired",
-                                "description": "token is expired"}, 401)
+                                "description": "token is expired"})
             except jwt.JWTClaimsError:
                 raise AuthError({"code": "invalid_claims",
                                 "description":
                                     "incorrect claims,"
-                                    "please check the audience and issuer"}, 401)
+                                    "please check the audience and issuer"})
             except Exception:
                 raise AuthError({"code": "invalid_header",
                                 "description":
                                     "Unable to parse authentication"
-                                    " token."}, 401)
+                                    " token."})
 
             _request_ctx_stack.top.current_user = payload
             session['current_user'] = payload
             return f(*args, **kwargs)
         raise AuthError({"code": "invalid_header",
-                        "description": "Unable to find appropriate key"}, 401)
+                        "description": "Unable to find appropriate key"})
     return decorated
 
 def requires_scope(required_scope):
