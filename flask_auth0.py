@@ -9,7 +9,7 @@ ALGORITHMS = ["RS256"]
 class AuthApp():
     _instance = None
 
-    def __init__(app):
+    def __init__(self, app):
         self.app = app
 
     @classmethod
