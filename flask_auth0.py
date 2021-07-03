@@ -1,7 +1,7 @@
 import os
 from functools import wraps
 
-from flask import _request_ctx_stack, session
+from flask import _request_ctx_stack, session, request
 
 AUTH0_DOMAIN = os.environ.get('AUTH0_DOMAIN')
 API_AUDIENCE = os.environ.get('AUTH0_API_AUDIENCE')
