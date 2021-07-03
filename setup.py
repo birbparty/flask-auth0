@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='flask_auth0',
-    version='',
+    version='0.1',
     py_modules=['flask_auth0'],
     packages=find_packages(),
     install_requires=[
