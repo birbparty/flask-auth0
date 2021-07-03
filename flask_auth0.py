@@ -28,7 +28,7 @@ class AppError(Exception):
     ERROR_DESCRIPTION = None
     def __init__(self, error):
         self.error = error
-        self.status_code = ERROR_CODE
+        self.status_code = self.ERROR_CODE
 
 class AuthError(AppError):
     ERROR_CODE = 401
