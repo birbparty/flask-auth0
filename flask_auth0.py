@@ -26,7 +26,7 @@ class AuthApp():
 class AppError(Exception):
     ERROR_CODE = None
     ERROR_DESCRIPTION = None
-    def __init__(self, error, code):
+    def __init__(self, error):
         self.error = error
         self.status_code = ERROR_CODE
 
